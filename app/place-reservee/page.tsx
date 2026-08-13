@@ -75,7 +75,7 @@ export default async function PlaceReservee({
           <Link href="/" aria-label="Lurnly — accueil">
             <MarqueLurnly />
           </Link>
-          <p className="font-[family-name:var(--font-donnees)] text-[var(--t-11)] font-medium tracking-[0.07em] text-[var(--texte-2)]">
+          <p className="font-[family-name:var(--font-donnees)] text-[length:var(--t-11)] font-medium tracking-[0.07em] text-[var(--texte-2)]">
             {rang === null ? (
               <>{millier(SEUIL_PLACES)} PLACES</>
             ) : (
@@ -91,17 +91,17 @@ export default async function PlaceReservee({
         id="contenu"
         className="mx-auto flex max-w-[640px] flex-col items-center px-6 pt-[90px] text-center"
       >
-        <h1 className="font-[family-name:var(--font-display)] text-[var(--t-34)] font-semibold leading-[1.06] tracking-[-0.0283em] text-[var(--texte)] lg:text-[var(--t-46)]">
+        <h1 className="font-[family-name:var(--font-display)] text-[length:var(--t-34)] font-semibold leading-[1.06] tracking-[-0.0283em] text-[var(--texte)] lg:text-[length:var(--t-46)]">
           Votre place est réservée
         </h1>
 
         {rang === null ? (
-          <p className="mt-[22px] text-[var(--t-15)] leading-[1.5] tracking-[-0.03em] text-[var(--texte-2)]">
+          <p className="mt-[22px] text-[length:var(--t-15)] leading-[1.5] tracking-[-0.03em] text-[var(--texte-2)]">
             On vous écrit dès que la première vague ouvre.
           </p>
         ) : (
           <>
-            <p className="mt-[22px] text-[var(--t-15)] leading-[1.5] tracking-[-0.03em] text-[var(--texte-2)]">
+            <p className="mt-[22px] text-[length:var(--t-15)] leading-[1.5] tracking-[-0.03em] text-[var(--texte-2)]">
               Vous êtes le
             </p>
 
@@ -109,7 +109,7 @@ export default async function PlaceReservee({
                 display qui porte le chiffre, parce qu'il fait 88 px et sert de
                 titre. Le monospace est réservé aux données de service, pas aux
                 nombres mis en scène. */}
-            <p className="mt-[4px] font-[family-name:var(--font-display)] text-[var(--t-88)] font-semibold leading-none tracking-[-0.0341em] text-[var(--texte)]">
+            <p className="mt-[4px] font-[family-name:var(--font-display)] text-[length:var(--t-88)] font-semibold leading-none tracking-[-0.0341em] text-[var(--texte)]">
               {rangOrdinal(rang).nombre}
               <sup className="align-super text-[0.45em]">{rangOrdinal(rang).suffixe}</sup>
             </p>
@@ -129,7 +129,7 @@ export default async function PlaceReservee({
               />
             </div>
 
-            <p className="mt-[12px] text-[var(--t-13)] font-medium leading-[1.5] text-[var(--texte-3)]">
+            <p className="mt-[12px] text-[length:var(--t-13)] font-medium leading-[1.5] text-[var(--texte-3)]">
               {millier(rang)} sur {millier(SEUIL_PLACES)} avant l’ouverture
             </p>
           </>
@@ -137,7 +137,7 @@ export default async function PlaceReservee({
 
         <Link
           href="/onboarding/domaine"
-          className="mt-[62px] inline-flex h-[50px] items-center rounded-[var(--radius-bouton)] bg-[var(--color-encre)] px-[28px] text-[var(--t-15)] font-medium text-white transition-opacity hover:opacity-90"
+          className="mt-[62px] inline-flex h-[50px] items-center rounded-[var(--radius-bouton)] bg-[var(--color-encre)] px-[28px] text-[length:var(--t-15)] font-medium text-white transition-opacity hover:opacity-90"
         >
           Préparer mon profil
         </Link>

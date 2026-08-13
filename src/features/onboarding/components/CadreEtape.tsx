@@ -38,7 +38,7 @@ export function CadreEtape({ etape, children }: { etape: Etape; children: ReactN
             est déjà enregistrée, revenir ne perd rien. */}
         <Link
           href="/"
-          className="text-[var(--t-15)] font-medium text-[var(--texte-3)] transition-colors hover:text-[var(--texte)]"
+          className="text-[length:var(--t-15)] font-medium text-[var(--texte-3)] transition-colors hover:text-[var(--texte)]"
         >
           Reprendre plus tard
         </Link>
@@ -94,11 +94,11 @@ export function CadreEtape({ etape, children }: { etape: Etape; children: ReactN
       >
         <TransitionEtape key={`col-${etape.slug}`}>
           <div className="mx-auto w-full max-w-[calc(560*var(--u))] py-6 lg:mx-0 lg:py-0">
-            <h1 className="font-[family-name:var(--font-display)] text-[var(--t-34)] font-semibold leading-[1.14] tracking-[-0.0588em] text-[var(--texte)]">
+            <h1 className="font-[family-name:var(--font-display)] text-[length:var(--t-34)] font-semibold leading-[1.14] tracking-[-0.0588em] text-[var(--texte)]">
               {etape.titre}
             </h1>
 
-            <p className="mt-[calc(10*var(--u))] text-[var(--t-145)] leading-[1.55] text-[var(--texte-3)]">
+            <p className="mt-[calc(10*var(--u))] text-[length:var(--t-145)] leading-[1.55] text-[var(--texte-3)]">
               {etape.aide}
             </p>
 

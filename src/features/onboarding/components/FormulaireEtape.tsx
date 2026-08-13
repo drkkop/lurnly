@@ -212,7 +212,7 @@ export function FormulaireEtape({
 
           {suggestions.length > 0 && !pseudoTouche.current ? (
             <div className="flex flex-wrap items-center gap-[calc(8*var(--u))]">
-              <span className="text-[var(--t-13)] text-[var(--texte-3)]">Libres :</span>
+              <span className="text-[length:var(--t-13)] text-[var(--texte-3)]">Libres :</span>
               {suggestions.map((propose) => (
                 <button
                   key={propose}
@@ -222,7 +222,7 @@ export function FormulaireEtape({
                     pseudoTouche.current = true
                     setSuggestions([])
                   }}
-                  className="rounded-[var(--radius-pastille)] border border-[var(--filet)] bg-[var(--surface)] px-[calc(10*var(--u))] py-[calc(5*var(--u))] text-[var(--t-13)] font-medium text-[var(--texte-2)] transition-colors hover:border-[var(--filet-appuye)] hover:text-[var(--texte)]"
+                  className="rounded-[var(--radius-pastille)] border border-[var(--filet)] bg-[var(--surface)] px-[calc(10*var(--u))] py-[calc(5*var(--u))] text-[length:var(--t-13)] font-medium text-[var(--texte-2)] transition-colors hover:border-[var(--filet-appuye)] hover:text-[var(--texte)]"
                 >
                   {propose}
                 </button>
@@ -250,7 +250,7 @@ export function FormulaireEtape({
           {/* L'upload réel passe par Supabase Storage côté client authentifié ;
               la Server Action ne reçoit qu'un chemin. */}
           <input type="hidden" name="photo_url" value={String(valeursInitiales.photo_url ?? '')} />
-          <div className="flex h-[220px] items-center justify-center rounded-[var(--radius-carte)] border border-dashed border-[var(--filet-appuye)] text-[var(--t-14)] text-[var(--texte-3)]">
+          <div className="flex h-[220px] items-center justify-center rounded-[var(--radius-carte)] border border-dashed border-[var(--filet-appuye)] text-[length:var(--t-14)] text-[var(--texte-3)]">
             Déposez une image, ou cliquez pour parcourir
           </div>
         </div>
@@ -298,7 +298,7 @@ export function FormulaireEtape({
               type="button"
               onClick={revenir}
               disabled={enCours}
-              className="group flex items-center gap-[calc(9*var(--u))] rounded-[var(--radius-bouton)] px-[calc(12*var(--u))] py-[calc(9*var(--u))] text-[var(--t-145)] font-medium text-[var(--texte-2)] transition-colors duration-150 hover:bg-[rgb(16_12_8_/_0.05)] hover:text-[var(--texte)] disabled:opacity-40 disabled:hover:bg-transparent"
+              className="group flex items-center gap-[calc(9*var(--u))] rounded-[var(--radius-bouton)] px-[calc(12*var(--u))] py-[calc(9*var(--u))] text-[length:var(--t-145)] font-medium text-[var(--texte-2)] transition-colors duration-150 hover:bg-[rgb(16_12_8_/_0.05)] hover:text-[var(--texte)] disabled:opacity-40 disabled:hover:bg-transparent"
             >
               <FlecheGauche
                 taille="1.1em"

@@ -29,7 +29,7 @@ type Props = {
 const CLASSES = [
   'group relative flex h-[calc(46*var(--u))] cursor-pointer items-center',
   'rounded-[var(--radius-bouton)] border border-[var(--filet)] bg-[var(--surface)]',
-  'px-[calc(16*var(--u))] text-[var(--t-145)] font-medium text-[var(--texte-2)]',
+  'px-[calc(16*var(--u))] text-[length:var(--t-145)] font-medium text-[var(--texte-2)]',
   'transition-colors duration-150 hover:border-[var(--filet-appuye)]',
   'has-[:checked]:border-[var(--color-encre)] has-[:checked]:bg-[var(--color-encre)]',
   'has-[:checked]:text-white',

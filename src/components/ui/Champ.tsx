@@ -34,7 +34,7 @@ function classesCadre(erreur?: string) {
 
 /** La saisie elle-même : aucune bordure, aucun contour — le cadre s'en charge. */
 const CLASSES_SAISIE =
-  'h-full min-w-0 flex-1 bg-transparent px-[calc(16*var(--u))] text-[var(--t-15)] text-[var(--texte)] outline-none placeholder:text-[var(--texte-3)]'
+  'h-full min-w-0 flex-1 bg-transparent px-[calc(16*var(--u))] text-[length:var(--t-15)] text-[var(--texte)] outline-none placeholder:text-[var(--texte-3)]'
 
 export function Champ({
   label,
@@ -48,7 +48,7 @@ export function Champ({
   const idErreur = erreur ? `${id}-erreur` : undefined
   return (
     <div className="flex flex-col gap-[calc(8*var(--u))]">
-      <label htmlFor={id} className="text-[var(--t-14)] text-[var(--texte-2)]">
+      <label htmlFor={id} className="text-[length:var(--t-14)] text-[var(--texte-2)]">
         {label}
       </label>
 
@@ -58,7 +58,7 @@ export function Champ({
           // serveur. Le lecteur d'écran l'ignore, le libellé et l'aide suffisent.
           <span
             aria-hidden="true"
-            className="shrink-0 pl-[calc(16*var(--u))] text-[var(--t-15)] text-[var(--texte-3)]"
+            className="shrink-0 pl-[calc(16*var(--u))] text-[length:var(--t-15)] text-[var(--texte-3)]"
           >
             {prefixe}
           </span>
@@ -76,12 +76,12 @@ export function Champ({
       </div>
 
       {aide ? (
-        <p id={idAide} className="text-[var(--t-13)] text-[var(--texte-3)]">
+        <p id={idAide} className="text-[length:var(--t-13)] text-[var(--texte-3)]">
           {aide}
         </p>
       ) : null}
       {erreur ? (
-        <p id={idErreur} role="alert" className="text-[var(--t-13)] font-medium">
+        <p id={idErreur} role="alert" className="text-[length:var(--t-13)] font-medium">
           {erreur}
         </p>
       ) : null}
@@ -101,7 +101,7 @@ export function ChampLong({
   const idErreur = erreur ? `${id}-erreur` : undefined
   return (
     <div className="flex flex-col gap-[calc(8*var(--u))]">
-      <label htmlFor={id} className="text-[var(--t-14)] text-[var(--texte-2)]">
+      <label htmlFor={id} className="text-[length:var(--t-14)] text-[var(--texte-2)]">
         {label}
       </label>
 
@@ -118,12 +118,12 @@ export function ChampLong({
       </div>
 
       {aide ? (
-        <p id={idAide} className="text-[var(--t-13)] text-[var(--texte-3)]">
+        <p id={idAide} className="text-[length:var(--t-13)] text-[var(--texte-3)]">
           {aide}
         </p>
       ) : null}
       {erreur ? (
-        <p id={idErreur} role="alert" className="text-[var(--t-13)] font-medium">
+        <p id={idErreur} role="alert" className="text-[length:var(--t-13)] font-medium">
           {erreur}
         </p>
       ) : null}

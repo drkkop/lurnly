@@ -51,12 +51,12 @@ export function ChampReservation() {
           required
           autoComplete="email"
           placeholder="votre@email.fr"
-          className="min-w-0 flex-1 bg-transparent text-[var(--t-15)] text-[var(--texte)] placeholder:text-[var(--texte-3)]"
+          className="min-w-0 flex-1 bg-transparent text-[length:var(--t-15)] text-[var(--texte)] placeholder:text-[var(--texte-3)]"
         />
         <button
           type="submit"
           disabled={enCours}
-          className="shrink-0 rounded-[calc(9*var(--u))] bg-[var(--color-encre)] px-[calc(18*var(--u))] py-[calc(11*var(--u))] text-[var(--t-14)] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="shrink-0 rounded-[calc(9*var(--u))] bg-[var(--color-encre)] px-[calc(18*var(--u))] py-[calc(11*var(--u))] text-[length:var(--t-14)] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {enCours ? 'Un instant…' : 'Réserver ma place'}
         </button>

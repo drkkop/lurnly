@@ -67,12 +67,12 @@ export async function BarreNav() {
               <Link
                 key={lien.libelle}
                 href={lien.href}
-                className="text-[var(--t-145)] text-[var(--texte-2)] transition-colors hover:text-[var(--texte)]"
+                className="text-[length:var(--t-145)] text-[var(--texte-2)] transition-colors hover:text-[var(--texte)]"
               >
                 {lien.libelle}
               </Link>
             ) : (
-              <span key={lien.libelle} className="text-[var(--t-145)] text-[var(--texte-2)]">
+              <span key={lien.libelle} className="text-[length:var(--t-145)] text-[var(--texte-2)]">
                 {lien.libelle}
               </span>
             ),
@@ -81,7 +81,7 @@ export async function BarreNav() {
 
         {/* Compteur de places. JetBrains Mono — la règle veut que le
             monospace soit réservé aux données chiffrées, et c'en est une. */}
-        <p className="font-[family-name:var(--font-donnees)] text-[var(--t-11)] font-medium tracking-[0.07em] text-[var(--texte-2)]">
+        <p className="font-[family-name:var(--font-donnees)] text-[length:var(--t-11)] font-medium tracking-[0.07em] text-[var(--texte-2)]">
           {inscrits === null ? (
             <>{millier(SEUIL_PLACES)} PLACES</>
           ) : (
