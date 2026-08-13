@@ -1,0 +1,124 @@
+@import 'tailwindcss';
+
+/* --------------------------------------------------------------------------
+   Lurnly — jetons de design
+   Référence : regles-ia/01-couleur.md, 02-structure, 03-typographie.
+
+   Principe : monochrome. Il n'y a pas de couleur primaire. La seule couleur du
+   système est le vert de validation, et il est strictement fonctionnel — badge
+   « CA vérifié », état de succès. L'utiliser pour décorer casse la règle.
+   -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('/fonts/GeneralSans-Variable.woff2') format('woff2-variations');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('/fonts/GeneralSans-VariableItalic.woff2') format('woff2-variations');
+  font-weight: 200 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@theme {
+  /* Encre et papier — les deux seules valeurs de fond et de texte. */
+  --color-encre: #100c08;
+  --color-papier: #f8f7fa;
+
+  /* Gris dérivés. Utilisés en opacité de l'encre, jamais en teintes inventées. */
+  --color-encre-72: rgb(16 12 8 / 0.72);
+  --color-encre-56: rgb(16 12 8 / 0.56);
+  --color-encre-40: rgb(16 12 8 / 0.4);
+  --color-encre-16: rgb(16 12 8 / 0.16);
+  --color-encre-08: rgb(16 12 8 / 0.08);
+
+  /* La seule couleur du système. Fonctionnelle uniquement. */
+  --color-valide: #149e63;
+
+  /* Rayons — jamais une valeur unique, cf. regles-ia/02. */
+  --radius-pastille: 6px;
+  --radius-bouton: 9px;
+  --radius-champ: 9px;
+  --radius-panneau: 15px;
+  --radius-carte: 16px;
+
+  /* Familles. Bricolage pour les titres, General Sans pour le corps,
+     JetBrains Mono réservé aux données chiffrées (CA, compteurs). */
+  --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-corps: 'General Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-donnees: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Gouttière de référence : la nav du hero fait 1246 px dans une page de 1440. */
+  --largeur-contenu: 1246px;
+}
+
+:root {
+  --fond: var(--color-papier);
+  --texte: var(--color-encre);
+  --filet: rgb(16 12 8 / 0.16);
+  --filet-appuye: rgb(16 12 8 / 0.4);
+}
+
+/* Mode sombre — obligatoire (regles-ia/01). L'encre et le papier s'inversent ;
+   le vert de validation est le seul jeton qui ne bouge pas de rôle, seulement
+   de luminosité pour tenir le contraste sur fond sombre. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: var(--color-encre);
+    --texte: var(--color-papier);
+    --filet: rgb(248 247 250 / 0.18);
+    --filet-appuye: rgb(248 247 250 / 0.44);
+    --color-valide: #22c07a;
+  }
+}
+
+html {
+  background-color: var(--fond);
+  color: var(--texte);
+}
+
+body {
+  font-family: var(--font-corps);
+  font-feature-settings: 'ss01', 'cv01';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   Le filet de 1 px — primitive récurrente du système.
+   Il remplace les cartes à bordure + ombre. On ne réintroduit pas d'ombre.
+   -------------------------------------------------------------------------- */
+.filet {
+  border: 1px solid var(--filet);
+}
+.filet-haut {
+  border-top: 1px solid var(--filet);
+}
+.filet-bas {
+  border-bottom: 1px solid var(--filet);
+}
+
+/* --------------------------------------------------------------------------
+   Focus clavier — point d'accessibilité le plus fragile du monochrome.
+   Sans couleur d'accent, le focus passe par un anneau à fort contraste doublé
+   d'un décalage : il doit rester lisible sur papier comme sur encre.
+   Ne jamais remplacer par `outline: none`.
+   -------------------------------------------------------------------------- */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--texte);
+  outline-offset: 2px;
+  border-radius: var(--radius-pastille);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
