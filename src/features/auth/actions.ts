@@ -14,12 +14,13 @@ import { schemaDemandeLien } from './schemas'
 
 export type ResultatAuth = { ok: true } | { ok: false; code: CodeAuth; message: string }
 
-export type CodeAuth = 'VALIDATION' | 'TROP_DE_DEMANDES' | 'ENVOI'
+export type CodeAuth = 'VALIDATION' | 'TROP_DE_DEMANDES' | 'ENVOI' | 'INDISPONIBLE'
 
 const MESSAGES: Record<CodeAuth, string> = {
   VALIDATION: 'Vérifiez votre adresse.',
   TROP_DE_DEMANDES: 'Trop de demandes coup sur coup. Patientez une minute avant de réessayer.',
   ENVOI: "Le lien n'a pas pu être envoyé. Réessayez dans un instant.",
+  INDISPONIBLE: 'Les inscriptions ne sont pas encore ouvertes. Revenez très vite.',
 }
 
 /**
@@ -48,23 +49,36 @@ export async function envoyerLienMagique(donnees: FormData): Promise<ResultatAut
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
   const destination = `${base}/auth/confirmer?suite=${encodeURIComponent(cheminSur(suite))}`
 
-  const supabase = await clientServeur()
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      // Inscription immédiate : pas de formulaire séparé, pas de mot de passe.
-      shouldCreateUser: true,
-      emailRedirectTo: destination,
-    },
-  })
+  try {
+    const supabase = await clientServeur()
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        // Inscription immédiate : pas de formulaire séparé, pas de mot de passe.
+        shouldCreateUser: true,
+        emailRedirectTo: destination,
+      },
+    })
 
-  if (error) {
-    // On ne distingue jamais « adresse inconnue » de « adresse connue » dans la
-    // réponse : ce serait un oracle permettant d'énumérer les membres.
-    if (error.status === 429) {
-      return { ok: false, code: 'TROP_DE_DEMANDES', message: MESSAGES.TROP_DE_DEMANDES }
+    if (error) {
+      // On ne distingue jamais « adresse inconnue » de « adresse connue » dans
+      // la réponse : ce serait un oracle permettant d'énumérer les membres.
+      if (error.status === 429) {
+        return { ok: false, code: 'TROP_DE_DEMANDES', message: MESSAGES.TROP_DE_DEMANDES }
+      }
+      return { ok: false, code: 'ENVOI', message: MESSAGES.ENVOI }
     }
-    return { ok: false, code: 'ENVOI', message: MESSAGES.ENVOI }
+  } catch (cause) {
+    // Filet obligatoire : `clientServeur()` lève si Supabase n'est pas
+    // configuré, et n'importe quelle panne réseau lève aussi. Sans ce catch,
+    // Next renvoie la pile d'appel au navigateur — ce que la règle du projet
+    // interdit formellement (fondations-dev/01, « gestion d'erreurs »).
+    // La cause réelle part dans les logs serveur, jamais vers le visiteur.
+    console.error('[auth] envoi du lien impossible', cause)
+    const configManquante = !process.env.NEXT_PUBLIC_SUPABASE_URL
+    return configManquante
+      ? { ok: false, code: 'INDISPONIBLE', message: MESSAGES.INDISPONIBLE }
+      : { ok: false, code: 'ENVOI', message: MESSAGES.ENVOI }
   }
 
   return { ok: true }
@@ -72,6 +86,12 @@ export async function envoyerLienMagique(donnees: FormData): Promise<ResultatAut
 
 /** Déconnexion. Invalide la session côté Supabase et vide les cookies. */
 export async function seDeconnecter(): Promise<void> {
-  const supabase = await clientServeur()
-  await supabase.auth.signOut()
+  try {
+    const supabase = await clientServeur()
+    await supabase.auth.signOut()
+  } catch (cause) {
+    // Une déconnexion qui échoue ne doit jamais bloquer l'utilisateur sur une
+    // page d'erreur : au pire les cookies expireront d'eux-mêmes.
+    console.error('[auth] déconnexion impossible', cause)
+  }
 }

@@ -41,6 +41,7 @@
   --color-ardoise: #5b6472; /* corps, sous-titres, libellés d'options */
   --color-brume: #969da8; /* aide, méta, marque substitutive */
   --color-filet: #e0e3ea; /* toutes les bordures de 1 px */
+  --color-rail: #eef0f3; /* fond des barres de progression */
   --color-attenue: #5b6067; /* deuxième ligne du H1 */
 
   /* La seule couleur du système — fonctionnelle uniquement. */
@@ -71,6 +72,21 @@
 }
 
 :root {
+  /* --------------------------------------------------------------------
+     Unité de maquette : un pixel du cadre Figma de 1440.
+
+     Toutes les tailles du hero s'expriment en multiples de `--u` plutôt
+     qu'en pixels fixes. Sans ça, la gravure — qui fait 100vw — s'étire avec
+     la fenêtre pendant que le titre reste figé : sur un écran de 1300, le H1
+     à 72 px pèse plus lourd que dans un cadre de 1440, et la composition se
+     déséquilibre. Avec `--u`, la page produit la même sensation d'échelle à
+     n'importe quelle largeur.
+
+     Bornes : plancher pour que le texte reste lisible sur téléphone,
+     plafond pour éviter l'absurde sur un écran très large.
+     -------------------------------------------------------------------- */
+  --u: clamp(0.5px, 100vw / 1440, 1.4px);
+
   --fond: var(--color-papier);
   --texte: var(--color-encre);
   --texte-2: var(--color-ardoise);
@@ -144,6 +160,9 @@ body {
    Ne jamais remplacer par `outline: none`.
    -------------------------------------------------------------------------- */
 :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  /* Règle par défaut. Un composant peut la déléguer à son conteneur — voir
+     ChampReservation, où l'anneau est porté par la pilule — mais jamais la
+     supprimer sans la remplacer. */
   outline: 2px solid var(--texte);
   outline-offset: 2px;
   border-radius: var(--radius-pastille);
@@ -156,4 +175,31 @@ body {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Suppression explicite du contour de focus.
+
+   `outline-none` de Tailwind 4 ne supprime pas le contour : il pose un contour
+   **transparent** de 2 px (pour rester visible en mode contraste forcé du
+   système). Sur certains rendus, notamment quand Chrome ouvre sa liste
+   d'adresses enregistrées, le navigateur redessine par-dessus son propre
+   anneau. D'où les contours qui persistaient malgré les utilitaires.
+
+   Cette règle-ci ne laisse aucune ambiguïté. Elle est réservée aux champs dont
+   le focus est signalé autrement — ici, par l'assombrissement du filet de la
+   pilule. Ne pas l'appliquer à un champ qui n'a aucun autre signal.
+   -------------------------------------------------------------------------- */
+.sans-anneau,
+.sans-anneau:focus,
+.sans-anneau:focus-visible,
+.sans-anneau *,
+.sans-anneau *:focus,
+.sans-anneau *:focus-visible {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.sans-anneau {
+  box-shadow: var(--shadow-carte);
 }

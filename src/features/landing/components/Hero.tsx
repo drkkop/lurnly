@@ -24,14 +24,14 @@ export function Hero() {
     <section className="relative overflow-hidden">
       <BarreNav />
 
-      <div className="mx-auto flex max-w-[var(--largeur-contenu)] flex-col items-center px-6 pt-[60px] lg:pt-[105px]">
-        <h1 className="text-center font-[family-name:var(--font-display)] text-[40px] font-semibold leading-[0.94] tracking-[-0.03em] text-[var(--texte)] sm:text-[56px] lg:text-[72px]">
+      <div className="mx-auto flex max-w-[calc(1246*var(--u))] flex-col items-center px-6 pt-[calc(105*var(--u))]">
+        <h1 className="text-center font-[family-name:var(--font-display)] text-[calc(72*var(--u))] font-semibold leading-[0.94] tracking-[-0.03em] text-[var(--texte)]">
           C’est ici que votre réseau
           <br />
           <span className="text-[var(--color-attenue)]">s’agrandit</span>
         </h1>
 
-        <p className="mt-[16px] max-w-[551px] text-center text-[16px] leading-[1.55] tracking-[-0.03em] text-[var(--texte-2)] lg:text-[19px]">
+        <p className="mt-[calc(16*var(--u))] max-w-[calc(551*var(--u))] text-center text-[calc(19*var(--u))] leading-[1.55] tracking-[-0.03em] text-[var(--texte-2)]">
           Des communautés par domaine, des profils au chiffre d’affaires vérifié, et des mises en
           relation qui aboutissent.
         </p>
@@ -43,7 +43,7 @@ export function Hero() {
           149, ce qui creusait un vide et repoussait les mains vers le bas.
           Avec `fill` + `object-contain`, la géométrie ne dépend plus de ce que
           l'optimiseur d'images décide de servir. */}
-      <div className="relative mt-[40px] aspect-[1441/361] w-full">
+      <div className="relative mt-[calc(40*var(--u))] aspect-[1441/361] w-full">
         <Image
           src="/hero/mains.png"
           alt="Gravure au pointillé : deux mains qui se tendent l’une vers l’autre sans se toucher."
@@ -54,14 +54,10 @@ export function Hero() {
         />
 
         {/* 25 px sous le haut de la gravure, soit 6,9 % de ses 361 px. */}
-        <div className="absolute left-1/2 top-[6.9%] w-full max-w-[402px] -translate-x-1/2 px-6 lg:px-0">
+        <div className="absolute left-1/2 top-[6.9%] w-full max-w-[calc(402*var(--u))] -translate-x-1/2 px-6 lg:px-0">
           <ChampReservation />
         </div>
       </div>
-
-      <p className="mt-[28px] px-6 text-center text-[13.5px] text-[var(--texte-3)]">
-        Je construis Lurnly en public. Vous verrez tout, y compris ce qui rate.
-      </p>
     </section>
   )
 }

@@ -21,7 +21,7 @@ export function CadreEtape({ etape, children }: { etape: Etape; children: ReactN
     <div className="relative min-h-dvh bg-[var(--fond)]">
       <header className="flex items-center justify-between px-[24px] py-[19px]">
         <Link href="/" aria-label="Lurnly — accueil">
-          <MarqueLurnly taille={35} />
+          <MarqueLurnly />
         </Link>
 
         {/* Sortie possible depuis n'importe quelle étape : la réponse en cours

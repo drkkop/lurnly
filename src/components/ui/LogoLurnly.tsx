@@ -15,7 +15,16 @@
  * reste exact à n'importe quelle taille.
  */
 
+/** Toutes les mesures du logo sont relevées sur une tuile de 35 px, puis
+ *  exprimées en `em` — la tuile porte `font-size: <taille>`, donc 1em = la
+ *  tuile. Le dessin reste exact à n'importe quelle taille, y compris quand
+ *  celle-ci est un `calc()` dépendant de la fenêtre. */
 const BASE = 35
+
+/** Convertit une mesure relevée en em relatifs à la tuile. */
+function em(v: number): string {
+  return `${v / BASE}em`
+}
 
 /** x, y, largeur, hauteur, puis rayons dans l'ordre CSS : TL, TR, BR, BL. */
 const BLOCS = [
@@ -25,18 +34,16 @@ const BLOCS = [
   { x: 17.59, y: 22.14, l: 8.4, h: 8.4, r: [0.547, 0.4375, 4.375, 0] },
 ] as const
 
-export function LogoLurnly({ taille = BASE }: { taille?: number }) {
-  const k = taille / BASE
-  const px = (v: number) => `${v * k}px`
-
+export function LogoLurnly({ taille = '35px' }: { taille?: string }) {
   return (
     <div
       aria-hidden="true"
       className="relative shrink-0 overflow-hidden"
       style={{
-        width: taille,
-        height: taille,
-        borderRadius: px(8.75),
+        fontSize: taille,
+        width: '1em',
+        height: '1em',
+        borderRadius: em(8.75),
         // Deux couches de blanc empilées, comme dans Figma.
         backgroundImage:
           'linear-gradient(rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.16)), linear-gradient(rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.08))',
@@ -44,7 +51,7 @@ export function LogoLurnly({ taille = BASE }: { taille?: number }) {
         // trop faible pour justifier un liseré — on ne l'invente pas.
         backdropFilter: 'blur(25px)',
         WebkitBackdropFilter: 'blur(25px)',
-        boxShadow: `0px ${0.175 * k}px ${1.75 * k}px 0px rgb(0 0 0 / 0.1)`,
+        boxShadow: `0px ${em(0.175)} ${em(1.75)} 0px rgb(0 0 0 / 0.1)`,
       }}
     >
       {BLOCS.map((b) => (
@@ -52,11 +59,11 @@ export function LogoLurnly({ taille = BASE }: { taille?: number }) {
           key={`${b.x}-${b.y}`}
           className="absolute bg-[#efefef]"
           style={{
-            left: px(b.x),
-            top: px(b.y),
-            width: px(b.l),
-            height: px(b.h),
-            borderRadius: b.r.map((v) => px(v)).join(' '),
+            left: em(b.x),
+            top: em(b.y),
+            width: em(b.l),
+            height: em(b.h),
+            borderRadius: b.r.map((v) => em(v)).join(' '),
           }}
         />
       ))}
@@ -65,11 +72,20 @@ export function LogoLurnly({ taille = BASE }: { taille?: number }) {
 }
 
 /** Logo + mot-symbole, tel qu'il apparaît dans la nav et dans l'onboarding. */
-export function MarqueLurnly({ taille = BASE }: { taille?: number }) {
+export function MarqueLurnly({
+  taille = 'calc(35 * var(--u))',
+  tailleMot = 'calc(20 * var(--u))',
+}: {
+  taille?: string
+  tailleMot?: string
+}) {
   return (
-    <div className="flex items-center gap-[10px]">
+    <div className="flex items-center gap-[calc(10*var(--u))]">
       <LogoLurnly taille={taille} />
-      <span className="font-[family-name:var(--font-display)] text-[20px] font-bold tracking-[-0.4px] text-[var(--texte)]">
+      <span
+        style={{ fontSize: tailleMot }}
+        className="font-[family-name:var(--font-display)] font-bold tracking-[-0.02em] text-[var(--texte)]"
+      >
         Lurnly
       </span>
     </div>

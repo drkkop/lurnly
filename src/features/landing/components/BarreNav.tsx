@@ -1,4 +1,5 @@
 import { MarqueLurnly } from '@/components/ui/LogoLurnly'
+import { SEUIL_PLACES, nombreInscrits } from '@/dal/compteurs'
 import Link from 'next/link'
 
 /**
@@ -16,7 +17,17 @@ const LIENS = [
   { libelle: 'Questions', href: '#questions' },
 ] as const
 
-export function BarreNav({ places = 348, total = 1000 }: { places?: number; total?: number }) {
+/** Espace fine insécable — la convention typographique française pour les
+ *  milliers. Un espace normal laisserait « 1 000 » se couper en fin de ligne. */
+function millier(n: number): string {
+  return n.toLocaleString('fr-FR').replace(/\u00a0|\u202f| /g, '\u202f')
+}
+
+export async function BarreNav() {
+  // Compteur réel. `null` si la base n'est pas joignable : on affiche alors le
+  // seuil seul plutôt qu'un nombre inventé — annoncer de faux inscrits sur une
+  // liste d'attente est exactement ce qu'on reproche aux autres.
+  const inscrits = await nombreInscrits()
   return (
     <div className="flex justify-center px-6">
       {/* Spécification Figma du nœud 97:4 « Rectangle 1 » :
@@ -27,7 +38,7 @@ export function BarreNav({ places = 348, total = 1000 }: { places?: number; tota
           intensité 0,8 — rendue par les deux liserés internes ci-dessous,
           le CSS n'ayant pas d'équivalent direct de la réfraction Figma. */}
       <div
-        className="flex h-[60px] w-full max-w-[var(--largeur-contenu)] items-center justify-between rounded-b-[var(--radius-nav)] bg-[rgb(137_137_137_/_0.2)] px-[28px]"
+        className="flex h-[calc(60*var(--u))] w-full max-w-[calc(1246*var(--u))] items-center justify-between rounded-b-[calc(30*var(--u))] bg-[rgb(137_137_137_/_0.2)] px-[calc(28*var(--u))]"
         style={{
           backdropFilter: 'blur(25px) saturate(1.15)',
           WebkitBackdropFilter: 'blur(25px) saturate(1.15)',
@@ -39,25 +50,31 @@ export function BarreNav({ places = 348, total = 1000 }: { places?: number; tota
         }}
       >
         <Link href="/" aria-label="Lurnly — accueil">
-          <MarqueLurnly taille={35} />
+          <MarqueLurnly />
         </Link>
 
-        <nav aria-label="Sections" className="hidden items-center gap-[34px] md:flex">
+        <nav aria-label="Sections" className="hidden items-center gap-[calc(34*var(--u))] md:flex">
           {LIENS.map((lien) => (
             <Link
               key={lien.href}
               href={lien.href}
-              className="text-[14.5px] text-[var(--texte-2)] transition-colors hover:text-[var(--texte)]"
+              className="text-[calc(14.5*var(--u))] text-[var(--texte-2)] transition-colors hover:text-[var(--texte)]"
             >
               {lien.libelle}
             </Link>
           ))}
         </nav>
 
-        {/* Compteur de places. JetBrains Mono — la règle est que le monospace
-            est réservé aux données chiffrées, et c'en est une. */}
-        <p className="font-[family-name:var(--font-donnees)] text-[11.5px] font-medium tracking-[0.805px] text-[var(--texte-2)]">
-          {places} / {total.toLocaleString('fr-FR').replace(/ | /g, ' ')} PLACES
+        {/* Compteur de places. JetBrains Mono — la règle veut que le
+            monospace soit réservé aux données chiffrées, et c'en est une. */}
+        <p className="font-[family-name:var(--font-donnees)] text-[calc(11.5*var(--u))] font-medium tracking-[0.07em] text-[var(--texte-2)]">
+          {inscrits === null ? (
+            <>{millier(SEUIL_PLACES)} PLACES</>
+          ) : (
+            <>
+              {millier(inscrits)} / {millier(SEUIL_PLACES)} PLACES
+            </>
+          )}
         </p>
       </div>
     </div>

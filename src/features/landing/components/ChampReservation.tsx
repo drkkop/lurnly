@@ -24,8 +24,9 @@ export function ChampReservation() {
         setErreur(resultat.message)
         return
       }
-      const email = String(donnees.get('email') ?? '')
-      router.push(`/connexion/verifiez?email=${encodeURIComponent(email)}`)
+      // Écran 2 du funnel : la place est annoncée comme acquise, pas comme
+      // « en attente de confirmation ». C'est la décision produit.
+      router.push('/place-reservee')
     })
   }
 
@@ -33,7 +34,11 @@ export function ChampReservation() {
     <div className="flex flex-col items-center gap-3">
       <form
         action={envoyer}
-        className="flex w-full max-w-[402px] items-center gap-2 rounded-[var(--radius-carte)] border border-[var(--filet)] bg-[var(--surface)] py-[5px] pl-[18px] pr-[5px] shadow-[var(--shadow-carte)]"
+        /* Aucun indicateur de focus, ni anneau ni changement de filet :
+           décision de design assumée. Conséquence connue — au clavier, rien ne
+           signale que le curseur est dans le champ. À rétablir si le parcours
+           clavier devient un sujet. */
+        className="sans-anneau flex w-full max-w-[calc(402*var(--u))] items-center gap-[calc(8*var(--u))] rounded-[calc(13*var(--u))] border border-[var(--filet)] bg-[var(--surface)] py-[calc(5*var(--u))] pl-[calc(18*var(--u))] pr-[calc(5*var(--u))]"
       >
         <input type="hidden" name="suite" value="/onboarding/domaine" />
         <label htmlFor="email-hero" className="sr-only">
@@ -46,12 +51,12 @@ export function ChampReservation() {
           required
           autoComplete="email"
           placeholder="votre@email.fr"
-          className="min-w-0 flex-1 bg-transparent text-[15px] text-[var(--texte)] outline-none placeholder:text-[var(--texte-3)]"
+          className="min-w-0 flex-1 bg-transparent text-[calc(15*var(--u))] text-[var(--texte)] placeholder:text-[var(--texte-3)]"
         />
         <button
           type="submit"
           disabled={enCours}
-          className="shrink-0 rounded-[var(--radius-bouton)] bg-[var(--color-encre)] px-[18px] py-[11px] text-[14px] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+          className="shrink-0 rounded-[calc(9*var(--u))] bg-[var(--color-encre)] px-[calc(18*var(--u))] py-[calc(11*var(--u))] text-[calc(14*var(--u))] font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {enCours ? 'Un instant…' : 'Réserver ma place'}
         </button>

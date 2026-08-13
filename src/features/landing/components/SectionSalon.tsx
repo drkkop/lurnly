@@ -57,7 +57,7 @@ export function SectionSalon() {
       className="mx-auto max-w-[var(--largeur-contenu)] px-6 pb-[120px] pt-[140px]"
     >
       <h2 className="flex flex-wrap items-center gap-x-[10px] font-[family-name:var(--font-display)] text-[28px] font-semibold tracking-[-0.9px] text-[var(--texte)] lg:text-[34px]">
-        Voilà à quoi <LogoLurnly taille={32} /> ressemble
+        Voilà à quoi <LogoLurnly taille="0.86em" /> ressemble
       </h2>
 
       <p className="mt-[22px] max-w-[520px] text-[15px] leading-[1.6] text-[var(--texte-2)]">
