@@ -14,8 +14,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const VARIANTES = {
-  plein:
-    'bg-[var(--texte)] text-[var(--fond)] hover:opacity-90 disabled:opacity-40',
+  plein: 'bg-[var(--texte)] text-[var(--fond)] hover:opacity-90 disabled:opacity-40',
   filet:
     'border border-[var(--filet-appuye)] text-[var(--texte)] hover:bg-[var(--color-encre-08)] disabled:opacity-40',
   discret:

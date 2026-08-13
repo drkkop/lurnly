@@ -1,7 +1,7 @@
 import 'server-only'
 
+import { type EtatProfil, calculerCompletion } from '@/features/onboarding/completion'
 import { clientServeur } from '@/lib/supabase/server'
-import { calculerCompletion, type EtatProfil } from '@/features/onboarding/completion'
 import { exigerUtilisateur } from './utilisateur'
 
 /**

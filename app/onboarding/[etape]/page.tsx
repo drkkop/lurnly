@@ -1,7 +1,7 @@
-import { notFound, redirect } from 'next/navigation'
 import { monProfil } from '@/dal/profil'
 import { utilisateurCourant } from '@/dal/utilisateur'
-import { CadreEtape, etapeParSlug, ETAPES, FormulaireEtape } from '@/features/onboarding'
+import { CadreEtape, ETAPES, FormulaireEtape, etapeParSlug } from '@/features/onboarding'
+import { notFound, redirect } from 'next/navigation'
 
 /**
  * Route unique pour les sept écrans.

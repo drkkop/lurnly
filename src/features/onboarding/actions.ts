@@ -1,10 +1,10 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { enregistrerReponse, pseudoDisponible } from '@/dal/profil'
 import { exigerUtilisateur } from '@/dal/utilisateur'
+import { revalidatePath } from 'next/cache'
 import { slugSuivant } from './etapes'
-import { estSlugConnu, SCHEMAS_PAR_ETAPE } from './schemas'
+import { SCHEMAS_PAR_ETAPE, estSlugConnu } from './schemas'
 
 /**
  * Server Actions de l'onboarding.

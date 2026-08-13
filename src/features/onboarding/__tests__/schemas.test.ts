@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { ETAPES, NOMBRE_ETAPES, slugPrecedent, slugSuivant } from '../etapes'
-import { estSlugConnu, schemaBio, schemaNom, schemaRecherche, SCHEMAS_PAR_ETAPE } from '../schemas'
+import { SCHEMAS_PAR_ETAPE, estSlugConnu, schemaBio, schemaNom, schemaRecherche } from '../schemas'
 
 describe('cohérence étapes ↔ schémas', () => {
   it('déclare sept étapes', () => {

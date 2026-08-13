@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import {
-  calculerCompletion,
-  etapesRemplies,
   POIDS_ETAPES,
   POIDS_TOTAL,
+  calculerCompletion,
+  etapesRemplies,
   premiereEtapeManquante,
   profilComplet,
 } from '../completion'

@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { monProfil } from '@/dal/profil'
+import Link from 'next/link'
 
 /**
  * Écran de fin — provisoire.
@@ -17,9 +17,7 @@ export default async function Termine() {
       <h1 className="font-[var(--font-display)] text-[40px] leading-[1.1] tracking-[-0.9px]">
         Votre place est réservée.
       </h1>
-      <p className="text-[16px] opacity-72">
-        On vous écrit dès que la première vague ouvre.
-      </p>
+      <p className="text-[16px] opacity-72">On vous écrit dès que la première vague ouvre.</p>
       <p className="font-[var(--font-donnees)] text-[13px] opacity-40">
         Profil complété à {profil?.completion ?? 0} %
       </p>

@@ -5,7 +5,13 @@
  */
 export { ETAPES, NOMBRE_ETAPES, etapeParSlug, slugPrecedent, slugSuivant } from './etapes'
 export type { Etape, Option, TypeDeChamp } from './etapes'
-export { calculerCompletion, POIDS_ETAPES, POIDS_TOTAL, premiereEtapeManquante, profilComplet } from './completion'
+export {
+  calculerCompletion,
+  POIDS_ETAPES,
+  POIDS_TOTAL,
+  premiereEtapeManquante,
+  profilComplet,
+} from './completion'
 export type { ChampDeCompletion, EtatProfil } from './completion'
 export { repondreEtape, sauterEtape } from './actions'
 export type { CodeErreur, Resultat } from './actions'

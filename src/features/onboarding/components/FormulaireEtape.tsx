@@ -1,10 +1,10 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useState, useTransition } from 'react'
 import { Bouton } from '@/components/ui/Bouton'
 import { Champ, ChampLong } from '@/components/ui/Champ'
 import { Option } from '@/components/ui/Option'
+import { useRouter } from 'next/navigation'
+import { useState, useTransition } from 'react'
 import { repondreEtape, sauterEtape } from '../actions'
 import type { Etape } from '../etapes'
 
@@ -27,9 +27,7 @@ export function FormulaireEtape({
   const [enCours, demarrer] = useTransition()
   const [erreur, setErreur] = useState<{ champ?: string; message: string } | null>(null)
   const [restants, setRestants] = useState(
-    etape.maxCaracteres
-      ? etape.maxCaracteres - String(valeursInitiales.bio ?? '').length
-      : 0,
+    etape.maxCaracteres ? etape.maxCaracteres - String(valeursInitiales.bio ?? '').length : 0,
   )
 
   function envoyer(donnees: FormData) {
@@ -55,8 +53,7 @@ export function FormulaireEtape({
     })
   }
 
-  const erreurDe = (champ: string) =>
-    erreur?.champ === champ ? erreur.message : undefined
+  const erreurDe = (champ: string) => (erreur?.champ === champ ? erreur.message : undefined)
 
   return (
     <form action={envoyer} className="flex flex-col gap-8">

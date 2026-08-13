@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ETAPES } from './etapes'
+import { ETAPES, type Option } from './etapes'
 
 /**
  * Un schéma Zod par étape.
@@ -13,7 +13,10 @@ import { ETAPES } from './etapes'
 /** Construit un enum Zod à partir des options déclarées pour une étape. */
 function valeursDe(slug: string): [string, ...string[]] {
   const etape = ETAPES.find((e) => e.slug === slug)
-  const options = etape && 'options' in etape ? etape.options : undefined
+  // Élargi volontairement : sans ça, TypeScript déduit une longueur
+  // littérale (4 | 8) du tuple `as const` et juge le test `=== 0` inutile.
+  const options: readonly Option[] | undefined =
+    etape && 'options' in etape ? etape.options : undefined
   if (!options || options.length === 0) {
     throw new Error(`L'étape « ${slug} » n'a pas d'options déclarées.`)
   }
@@ -61,7 +64,10 @@ export const schemaRecherche = z.object({
 })
 
 export const schemaApport = z.object({
-  apport: z.array(z.enum(valeursDe('apport'))).min(1, 'Choisissez au moins une réponse.').max(8),
+  apport: z
+    .array(z.enum(valeursDe('apport')))
+    .min(1, 'Choisissez au moins une réponse.')
+    .max(8),
 })
 
 export const schemaBio = z.object({

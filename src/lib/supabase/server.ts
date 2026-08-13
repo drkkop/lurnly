@@ -1,6 +1,6 @@
 import 'server-only'
 
-import { createServerClient } from '@supabase/ssr'
+import { type CookieOptions, createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 /**
@@ -29,7 +29,7 @@ export async function clientServeur() {
       getAll() {
         return magasin.getAll()
       },
-      setAll(cookiesAEcrire) {
+      setAll(cookiesAEcrire: { name: string; value: string; options: CookieOptions }[]) {
         try {
           for (const { name, value, options } of cookiesAEcrire) {
             magasin.set(name, value, options)

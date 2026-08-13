@@ -1,5 +1,5 @@
-import type { NextRequest } from 'next/server'
 import { rafraichirSession } from '@/lib/supabase/middleware'
+import type { NextRequest } from 'next/server'
 
 /**
  * Le middleware rafraîchit la session. Il ne protège rien.
@@ -11,5 +11,7 @@ export async function middleware(requete: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|fonts|gravures|.*\\.(?:svg|png|jpg|webp)$).*)'],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|fonts|gravures|.*\\.(?:svg|png|jpg|webp)$).*)',
+  ],
 }
