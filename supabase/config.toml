@@ -1,8 +1,12 @@
 project_id = "lurnly"
 
+# Ports décalés sur la plage 5433x : le projet Supabase `flowdash_V2` occupe
+# déjà la plage par défaut 5432x. Les deux bases tournent ainsi en parallèle,
+# sans avoir à arrêter l'une pour travailler sur l'autre.
+
 [api]
 enabled = true
-port = 54321
+port = 54331
 schemas = ["public", "graphql_public"]
 # `prive` n'est volontairement PAS exposé : c'est là que vivent les fonctions
 # SECURITY DEFINER et, plus tard, les jetons OAuth Stripe/Shopify.
@@ -10,8 +14,23 @@ extra_search_path = ["public", "extensions"]
 max_rows = 1000
 
 [db]
-port = 54322
+port = 54332
+shadow_port = 54330
 major_version = 17
+
+[studio]
+enabled = true
+port = 54333
+
+# Boîte mail de test. Aucun email ne part vers une vraie adresse en local.
+[inbucket]
+enabled = true
+port = 54334
+
+# Analytics désactivé : ce conteneur (Logflare) demande une configuration
+# supplémentaire et fait échouer `db reset` en local. On ne s'en sert pas.
+[analytics]
+enabled = false
 
 [auth]
 enabled = true

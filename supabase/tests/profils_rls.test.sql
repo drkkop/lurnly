@@ -12,13 +12,15 @@ begin;
 select plan(6);
 
 -- Deux utilisateurs de test.
-insert into auth.users (id, email, encrypted_password, email_confirmed_at, created_at, updated_at,
-                        raw_app_meta_data, raw_user_meta_data, aud, role)
+--
+-- On n'insère que `id` et `email`. Le schéma de `auth.users` appartient à
+-- GoTrue et change d'une version de Supabase à l'autre : lister ses colonnes
+-- ici rendrait nos tests de permissions dépendants d'un schéma qu'on ne
+-- contrôle pas. Tout le reste est nullable ou a une valeur par défaut.
+insert into auth.users (id, email)
 values
-  ('11111111-1111-1111-1111-111111111111', 'a@lurnly.test', '', now(), now(), now(),
-   '{"provider":"email"}', '{}', 'authenticated', 'authenticated'),
-  ('22222222-2222-2222-2222-222222222222', 'b@lurnly.test', '', now(), now(), now(),
-   '{"provider":"email"}', '{}', 'authenticated', 'authenticated');
+  ('11111111-1111-1111-1111-111111111111', 'a@lurnly.test'),
+  ('22222222-2222-2222-2222-222222222222', 'b@lurnly.test');
 
 insert into public.profils (id, prenom, pseudo, domaine, ca_verifie)
 values
