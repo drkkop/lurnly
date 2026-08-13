@@ -16,8 +16,11 @@ export default async function Verifiez({
   const { email } = await searchParams
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-[440px] flex-col justify-center gap-6 px-6">
-      <h1 className="font-[var(--font-display)] text-[36px] leading-[1.1] tracking-[-0.9px]">
+    <main
+      id="contenu"
+      className="mx-auto flex min-h-dvh max-w-[440px] flex-col justify-center gap-6 px-6"
+    >
+      <h1 className="font-[var(--font-display)] text-[36px] leading-[1.1] tracking-[-0.03em]">
         Regardez vos emails
       </h1>
 

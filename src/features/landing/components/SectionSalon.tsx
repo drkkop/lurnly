@@ -44,7 +44,7 @@ function Avatar({ src, nom, taille }: { src: string; nom: string; taille: number
 /** Badge « CA vérifié ». Seul endroit du système où le vert apparaît. */
 function BadgeVerifie({ montant }: { montant: string }) {
   return (
-    <span className="rounded-[var(--radius-badge)] bg-[var(--color-valide-fond)] px-[8px] py-[1px] text-[11.5px] font-medium text-[var(--color-valide)]">
+    <span className="rounded-[var(--radius-badge)] bg-[var(--color-valide-fond)] px-[8px] py-[1px] text-[11.5px] font-medium text-[var(--color-valide-texte)]">
       CA vérifié · {montant}
     </span>
   )
@@ -56,7 +56,7 @@ export function SectionSalon() {
       id="salons"
       className="mx-auto max-w-[var(--largeur-contenu)] px-6 pb-[120px] pt-[140px]"
     >
-      <h2 className="flex flex-wrap items-center gap-x-[10px] font-[family-name:var(--font-display)] text-[28px] font-semibold tracking-[-0.9px] text-[var(--texte)] lg:text-[34px]">
+      <h2 className="flex flex-wrap items-center gap-x-[10px] font-[family-name:var(--font-display)] text-[28px] font-semibold tracking-[-0.03em] text-[var(--texte)] lg:text-[34px]">
         Voilà à quoi <LogoLurnly taille="0.86em" /> ressemble
       </h2>
 
@@ -78,7 +78,7 @@ export function SectionSalon() {
 
           <hr className="my-[26px] h-px border-0 bg-[var(--filet)]" />
 
-          <h3 className="max-w-[520px] font-[family-name:var(--font-display)] text-[22px] font-semibold leading-[1.2] tracking-[-0.7px] text-[var(--texte)] lg:text-[25px]">
+          <h3 className="max-w-[520px] font-[family-name:var(--font-display)] text-[22px] font-semibold leading-[1.2] tracking-[-0.03em] text-[var(--texte)] lg:text-[25px]">
             Comment vous avez géré votre premier recrutement ?
           </h3>
 
@@ -88,7 +88,7 @@ export function SectionSalon() {
           </p>
 
           <div className="mt-[20px] flex items-center gap-[12px]">
-            <Avatar src="/demo/camille.png" nom="Camille" taille={30} />
+            <Avatar src="/demo/camille.webp" nom="Camille" taille={30} />
             <span className="text-[14px] font-medium text-[var(--texte)]">Camille</span>
             <span className="text-[13.5px] text-[var(--texte-3)]">ecom · 2 ans</span>
           </div>
@@ -98,7 +98,7 @@ export function SectionSalon() {
           <p className="text-[13px] font-medium text-[var(--texte-3)]">2 réponses</p>
 
           <div className="mt-[16px] flex gap-[12px]">
-            <Avatar src="/demo/yanis.png" nom="Yanis" taille={32} />
+            <Avatar src="/demo/yanis.webp" nom="Yanis" taille={32} />
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-[10px]">
                 <span className="text-[14.5px] font-medium text-[var(--texte)]">Yanis</span>
@@ -113,7 +113,7 @@ export function SectionSalon() {
           </div>
 
           <div className="mt-[26px] flex gap-[12px]">
-            <Avatar src="/demo/sofia.png" nom="Sofia" taille={32} />
+            <Avatar src="/demo/sofia.webp" nom="Sofia" taille={32} />
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-[10px]">
                 <span className="text-[14.5px] font-medium text-[var(--texte)]">Sofia</span>

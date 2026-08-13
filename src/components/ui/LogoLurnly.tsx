@@ -1,10 +1,12 @@
 /**
  * Logo Lurnly — spécification Figma du nœud 114:2.
  *
- * Tuile de 35 × 35, rayon 8,75, contenu rogné. Le fond est **blanc
- * translucide** (deux couches, 16 % puis 8 %) posé sur un effet verre : le
- * logo prend donc la couleur de ce qu'il y a derrière. Ce n'est pas une tuile
- * encre — c'est ce que j'avais supposé à tort au premier jet.
+ * Tuile de 35 × 35, rayon 8,75, contenu rogné, **fond encre opaque**.
+ *
+ * Figma spécifiait deux couches de blanc translucide (16 % puis 8 %) sur un
+ * effet verre. Rendu tel quel sur le papier clair, ça donnait une tuile
+ * presque invisible dans laquelle les blocs #EFEFEF — plus clairs encore que
+ * leur fond — ne se lisaient pas. Décision de Robin : tuile pleine.
  *
  * Les quatre blocs forment le « L » : trois empilés pour la barre verticale,
  * un quatrième en bas à droite pour la barre horizontale. Leurs rayons sont
@@ -44,13 +46,11 @@ export function LogoLurnly({ taille = '35px' }: { taille?: string }) {
         width: '1em',
         height: '1em',
         borderRadius: em(8.75),
-        // Deux couches de blanc empilées, comme dans Figma.
-        backgroundImage:
-          'linear-gradient(rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.16)), linear-gradient(rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.08))',
-        // Effet verre : flou 25. La lumière (angle 256°, intensité 0,09) est
-        // trop faible pour justifier un liseré — on ne l'invente pas.
-        backdropFilter: 'blur(25px)',
-        WebkitBackdropFilter: 'blur(25px)',
+        // Tuile opaque en encre. On abandonne les deux couches translucides
+        // de Figma : sur le papier clair elles donnaient un gris pâle où les
+        // blocs #EFEFEF, plus clairs encore, ne se lisaient pas. Le logo est
+        // désormais un objet plein, pas un filigrane.
+        backgroundColor: 'var(--color-encre)',
         boxShadow: `0px ${em(0.175)} ${em(1.75)} 0px rgb(0 0 0 / 0.1)`,
       }}
     >

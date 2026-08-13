@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Cycle propre : arrêt, redémarrage, migrations, types, tests.
 set -uo pipefail
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 
 echo "→ Arrêt de Lurnly (flowdash_V2 n'est pas touché)"
 supabase stop --project-id lurnly 2>/dev/null

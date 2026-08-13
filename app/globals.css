@@ -47,6 +47,9 @@
   /* La seule couleur du système — fonctionnelle uniquement. */
   --color-valide: #149e63;
   --color-valide-fond: rgb(20 158 99 / 0.1);
+  /* Le vert de marque ne fait que 3,0:1 sur fond clair : suffisant pour un
+     aplat, pas pour du texte de badge à 11,5 px. Celui-ci monte à 4,6:1. */
+  --color-valide-texte: #0e7a4a;
 
   /* Rayons. Jamais une valeur unique : chaque objet a le sien. */
   --radius-badge: 4px;
@@ -85,12 +88,38 @@
      Bornes : plancher pour que le texte reste lisible sur téléphone,
      plafond pour éviter l'absurde sur un écran très large.
      -------------------------------------------------------------------- */
-  --u: clamp(0.5px, 100vw / 1440, 1.4px);
+  --u: clamp(0.72px, 100vw / 1440, 1.4px);
+
+  /* --------------------------------------------------------------------
+     Échelle typographique fluide.
+
+     Les tailles de texte ne suivent PAS `--u` : son plancher, pensé pour
+     les espacements, donnait un corps de texte de 7 px sur téléphone.
+     Chaque taille de la maquette a sa propre rampe — proportionnelle à la
+     fenêtre au milieu, bornée par un minimum lisible en bas et un maximum
+     raisonnable en haut. Les grands titres peuvent perdre la moitié de
+     leur corps sur mobile, le texte courant presque rien : c'est pour ça
+     qu'un facteur unique ne pouvait pas marcher.
+     -------------------------------------------------------------------- */
+  --t-11: clamp(11px, 0.8vw, 16px); /* méta, compteur */
+  --t-13: clamp(12px, 0.9vw, 18px); /* aide, légendes */
+  --t-14: clamp(13px, 0.97vw, 19.5px); /* libellés de champs */
+  --t-145: clamp(13px, 1.01vw, 20px); /* options, liens */
+  --t-15: clamp(13.5px, 1.04vw, 21px); /* corps, boutons */
+  --t-19: clamp(15px, 1.32vw, 26.5px); /* sous-titre du hero */
+  --t-34: clamp(24px, 2.36vw, 47.5px); /* titre d'étape */
+  --t-46: clamp(30px, 3.2vw, 64px); /* titre de page */
+  --t-72: clamp(36px, 5vw, 100px); /* H1 du hero */
+  --t-88: clamp(44px, 6.1vw, 123px); /* rang dans la file */
 
   --fond: var(--color-papier);
   --texte: var(--color-encre);
   --texte-2: var(--color-ardoise);
-  --texte-3: var(--color-brume);
+  /* #969da8 (la brume de la maquette) ne fait que 2,7:1 sur le papier —
+     illisible en plein soleil, et sous le minimum légal de 4,5:1. Ce gris-ci
+     garde le rôle (texte secondaire discret) en passant à 4,7:1. La maquette
+     Figma reste à corriger pour suivre. */
+  --texte-3: #6b7280;
   --surface: var(--color-blanc);
   --filet: var(--color-filet);
   --filet-appuye: #c8cdd6;
@@ -146,12 +175,6 @@ body {
 .filet {
   border: 1px solid var(--filet);
 }
-.filet-haut {
-  border-top: 1px solid var(--filet);
-}
-.filet-bas {
-  border-bottom: 1px solid var(--filet);
-}
 
 /* --------------------------------------------------------------------------
    Focus clavier — point d'accessibilité le plus fragile du monochrome.
@@ -202,4 +225,126 @@ body {
 
 .sans-anneau {
   box-shadow: var(--shadow-carte);
+}
+
+/* --------------------------------------------------------------------------
+   Transition entre les étapes de l'onboarding.
+
+   Elle démontre une fonction, elle ne décore pas : elle confirme que la
+   réponse a été enregistrée et indique le sens de la marche. C'est le seul
+   mouvement du parcours.
+
+   `regles-ia/04` impose l'easing exponentiel plutôt qu'un `ease-in-out`, et
+   une durée proportionnelle à la taille de l'élément : 380 ms pour la colonne
+   du formulaire, 460 ms pour le panneau de la gravure, qui est plus grand.
+
+   Le glissement est **orienté** : vers la gauche quand on avance, vers la
+   droite quand on revient. Une révélation identique dans les deux sens
+   perdrait justement l'information qui justifie l'animation.
+
+   Les états de départ ne sont posés que dans les keyframes, jamais en style
+   statique : si l'animation ne se déclenche pas — navigateur ancien,
+   `prefers-reduced-motion` — le contenu reste visible et à sa place.
+   -------------------------------------------------------------------------- */
+
+@keyframes entree-avant {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+}
+
+@keyframes entree-arriere {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+}
+
+@keyframes entree-gravure {
+  from {
+    opacity: 0;
+    transform: scale(1.015);
+  }
+}
+
+.transition-avant {
+  animation: entree-avant 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.transition-arriere {
+  animation: entree-arriere 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.transition-gravure {
+  animation: entree-gravure 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --------------------------------------------------------------------------
+   Cadre de champ de formulaire.
+
+   Le contour de focus est porté par le cadre, jamais par la saisie. Sans cette
+   règle, le navigateur dessine son contour autour de l'`input` lui-même ; comme
+   le cadre rogne ce qui dépasse, il n'en restait qu'un segment vertical à
+   gauche — une barre noire qu'on prend pour un artefact de rendu.
+
+   `!important` est nécessaire : `outline-none` de Tailwind 4 pose un contour
+   *transparent* au lieu de le supprimer, et certains navigateurs redessinent
+   le leur par-dessus.
+   -------------------------------------------------------------------------- */
+.cadre-champ :is(input, textarea, select),
+.cadre-champ :is(input, textarea, select):focus,
+.cadre-champ :is(input, textarea, select):focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Coche de validation — coolicons « Interface / Check_Big ».
+
+   Elle se trace au lieu d'apparaître : le trait se dessine de gauche à droite
+   en 260 ms. C'est le geste qui porte le sens — une coche qui surgit d'un coup
+   ne dit rien de plus qu'un changement de couleur.
+
+   `stroke-dasharray` vaut la longueur du chemin ; on la fait passer de
+   « entièrement masquée » à « entièrement visible ».
+   -------------------------------------------------------------------------- */
+@keyframes tracer-coche {
+  from {
+    stroke-dashoffset: 28;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.trace-coche {
+  stroke-dasharray: 28;
+  animation: tracer-coche 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --------------------------------------------------------------------------
+   Lien d'évitement.
+
+   Premier élément focusable de chaque page : il permet à la navigation au
+   clavier de sauter directement au contenu au lieu de retraverser la nav.
+   Invisible tant qu'il n'a pas le focus.
+   -------------------------------------------------------------------------- */
+.lien-evitement {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--radius-bouton);
+  background: var(--color-encre);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.lien-evitement:focus-visible {
+  top: 16px;
+  outline: 2px solid var(--fond);
+  outline-offset: 2px;
 }

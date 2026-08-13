@@ -25,7 +25,11 @@ export const revalidate = 60
 export const metadata = { title: 'Votre place est réservée — Lurnly' }
 
 function millier(n: number): string {
-  return n.toLocaleString('fr-FR').replace(/ | | /g, ' ')
+  // Espace fine insécable (U+202F) : la convention typographique française
+  // pour les milliers. `toLocaleString` renvoie déjà ce caractère selon les
+  // navigateurs, ou une espace insécable ordinaire — on normalise les deux,
+  // sinon le séparateur disparaît sur certains rendus.
+  return n.toLocaleString('fr-FR').replace(/[\u00a0\u202f ]/g, '\u202f')
 }
 
 /** « 1er », puis « 2e », « 349e ». Le français ne met « er » qu'au premier. */
@@ -71,7 +75,7 @@ export default async function PlaceReservee({
           <Link href="/" aria-label="Lurnly — accueil">
             <MarqueLurnly />
           </Link>
-          <p className="font-[family-name:var(--font-donnees)] text-[11.5px] font-medium tracking-[0.805px] text-[var(--texte-2)]">
+          <p className="font-[family-name:var(--font-donnees)] text-[var(--t-11)] font-medium tracking-[0.07em] text-[var(--texte-2)]">
             {rang === null ? (
               <>{millier(SEUIL_PLACES)} PLACES</>
             ) : (
@@ -83,18 +87,21 @@ export default async function PlaceReservee({
         </div>
       </header>
 
-      <main className="mx-auto flex max-w-[640px] flex-col items-center px-6 pt-[90px] text-center">
-        <h1 className="font-[family-name:var(--font-display)] text-[34px] font-semibold leading-[1.06] tracking-[-0.028em] text-[var(--texte)] lg:text-[46px]">
+      <main
+        id="contenu"
+        className="mx-auto flex max-w-[640px] flex-col items-center px-6 pt-[90px] text-center"
+      >
+        <h1 className="font-[family-name:var(--font-display)] text-[var(--t-34)] font-semibold leading-[1.06] tracking-[-0.0283em] text-[var(--texte)] lg:text-[var(--t-46)]">
           Votre place est réservée
         </h1>
 
         {rang === null ? (
-          <p className="mt-[22px] text-[16px] leading-[1.5] tracking-[-0.03em] text-[var(--texte-2)]">
+          <p className="mt-[22px] text-[var(--t-15)] leading-[1.5] tracking-[-0.03em] text-[var(--texte-2)]">
             On vous écrit dès que la première vague ouvre.
           </p>
         ) : (
           <>
-            <p className="mt-[22px] text-[16px] leading-[1.5] tracking-[-0.03em] text-[var(--texte-2)]">
+            <p className="mt-[22px] text-[var(--t-15)] leading-[1.5] tracking-[-0.03em] text-[var(--texte-2)]">
               Vous êtes le
             </p>
 
@@ -102,7 +109,7 @@ export default async function PlaceReservee({
                 display qui porte le chiffre, parce qu'il fait 88 px et sert de
                 titre. Le monospace est réservé aux données de service, pas aux
                 nombres mis en scène. */}
-            <p className="mt-[4px] font-[family-name:var(--font-display)] text-[64px] font-semibold leading-none tracking-[-0.034em] text-[var(--texte)] lg:text-[88px]">
+            <p className="mt-[4px] font-[family-name:var(--font-display)] text-[var(--t-88)] font-semibold leading-none tracking-[-0.0341em] text-[var(--texte)]">
               {rangOrdinal(rang).nombre}
               <sup className="align-super text-[0.45em]">{rangOrdinal(rang).suffixe}</sup>
             </p>
@@ -122,7 +129,7 @@ export default async function PlaceReservee({
               />
             </div>
 
-            <p className="mt-[12px] text-[13.5px] font-medium leading-[1.5] text-[var(--texte-3)]">
+            <p className="mt-[12px] text-[var(--t-13)] font-medium leading-[1.5] text-[var(--texte-3)]">
               {millier(rang)} sur {millier(SEUIL_PLACES)} avant l’ouverture
             </p>
           </>
@@ -130,7 +137,7 @@ export default async function PlaceReservee({
 
         <Link
           href="/onboarding/domaine"
-          className="mt-[62px] inline-flex h-[50px] items-center rounded-[var(--radius-bouton)] bg-[var(--color-encre)] px-[28px] text-[15px] font-medium text-white transition-opacity hover:opacity-90"
+          className="mt-[62px] inline-flex h-[50px] items-center rounded-[var(--radius-bouton)] bg-[var(--color-encre)] px-[28px] text-[var(--t-15)] font-medium text-white transition-opacity hover:opacity-90"
         >
           Préparer mon profil
         </Link>

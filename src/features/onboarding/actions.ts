@@ -4,6 +4,7 @@ import { enregistrerReponse, pseudoDisponible } from '@/dal/profil'
 import { exigerUtilisateur } from '@/dal/utilisateur'
 import { revalidatePath } from 'next/cache'
 import { slugSuivant } from './etapes'
+import { genererCandidats } from './pseudo'
 import { SCHEMAS_PAR_ETAPE, estSlugConnu } from './schemas'
 
 /**
@@ -102,4 +103,40 @@ export async function sauterEtape(slug: string): Promise<Resultat> {
   }
   if (!estSlugConnu(slug)) return echec('ETAPE_INCONNUE')
   return { ok: true, suivant: slugSuivant(slug) }
+}
+
+/**
+ * Propose jusqu'à trois pseudos libres, dérivés d'un prénom.
+ *
+ * Exige d'être connecté, comme toute Server Action : c'est un endpoint POST
+ * public, et interroger la disponibilité des pseudos sans session offrirait un
+ * moyen d'énumérer les membres.
+ *
+ * On s'arrête à douze vérifications même si aucune n'aboutit : sans ce
+ * plafond, un prénom très répandu ferait boucler la requête indéfiniment.
+ * Renvoyer moins de trois propositions n'est pas un échec — le champ reste
+ * libre à la saisie.
+ */
+export async function suggererPseudos(prenom: string): Promise<string[]> {
+  try {
+    await exigerUtilisateur()
+  } catch {
+    return []
+  }
+
+  const candidats = genererCandidats(prenom).slice(0, 12)
+  const libres: string[] = []
+
+  for (const candidat of candidats) {
+    if (libres.length === 3) break
+    try {
+      if (await pseudoDisponible(candidat)) libres.push(candidat)
+    } catch {
+      // Base injoignable : on renvoie ce qu'on a plutôt que de faire échouer
+      // l'écran pour une aide facultative.
+      break
+    }
+  }
+
+  return libres
 }

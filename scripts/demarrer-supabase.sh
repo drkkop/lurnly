@@ -2,7 +2,7 @@
 # Démarre Supabase en local, applique les migrations, génère .env.local et les
 # types TypeScript, puis lance les tests de permissions.
 set -uo pipefail
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 
 echo "→ Vérifications"
 if ! command -v supabase >/dev/null 2>&1; then

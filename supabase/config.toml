@@ -50,6 +50,12 @@ secure_password_change = false
 
 # Gabarit maison : il envoie un token hash, pas une URL de confirmation
 # auto-consommée. Voir le commentaire en tête du fichier.
+# Première inscription (adresse inconnue de Supabase).
+[auth.email.template.confirmation]
+subject = "Votre place est réservée sur Lurnly"
+content_path = "./supabase/templates/confirmation.html"
+
+# Connexion d'un membre déjà inscrit.
 [auth.email.template.magic_link]
 subject = "Votre lien pour entrer sur Lurnly"
 content_path = "./supabase/templates/magic_link.html"

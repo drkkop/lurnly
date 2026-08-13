@@ -10,11 +10,19 @@ import Link from 'next/link'
  * de toute la page — tout le reste s'aligne dessus.
  */
 
+/**
+ * Seule la section « Salons » existe sur la page. Les trois autres entrées
+ * restent affichées — elles annoncent la structure du produit — mais ne sont
+ * PAS des liens tant que leurs sections ne sont pas construites : une ancre
+ * qui ne mène nulle part est pire qu'un libellé inerte, elle enseigne au
+ * visiteur que les liens du site ne fonctionnent pas.
+ * À re-transformer en liens au fur et à mesure que les sections arrivent.
+ */
 const LIENS = [
-  { libelle: 'Communautés', href: '#communautes' },
-  { libelle: 'Vérification', href: '#verification' },
+  { libelle: 'Communautés', href: null },
+  { libelle: 'Vérification', href: null },
   { libelle: 'Salons', href: '#salons' },
-  { libelle: 'Questions', href: '#questions' },
+  { libelle: 'Questions', href: null },
 ] as const
 
 /** Espace fine insécable — la convention typographique française pour les
@@ -54,20 +62,26 @@ export async function BarreNav() {
         </Link>
 
         <nav aria-label="Sections" className="hidden items-center gap-[calc(34*var(--u))] md:flex">
-          {LIENS.map((lien) => (
-            <Link
-              key={lien.href}
-              href={lien.href}
-              className="text-[calc(14.5*var(--u))] text-[var(--texte-2)] transition-colors hover:text-[var(--texte)]"
-            >
-              {lien.libelle}
-            </Link>
-          ))}
+          {LIENS.map((lien) =>
+            lien.href ? (
+              <Link
+                key={lien.libelle}
+                href={lien.href}
+                className="text-[var(--t-145)] text-[var(--texte-2)] transition-colors hover:text-[var(--texte)]"
+              >
+                {lien.libelle}
+              </Link>
+            ) : (
+              <span key={lien.libelle} className="text-[var(--t-145)] text-[var(--texte-2)]">
+                {lien.libelle}
+              </span>
+            ),
+          )}
         </nav>
 
         {/* Compteur de places. JetBrains Mono — la règle veut que le
             monospace soit réservé aux données chiffrées, et c'en est une. */}
-        <p className="font-[family-name:var(--font-donnees)] text-[calc(11.5*var(--u))] font-medium tracking-[0.07em] text-[var(--texte-2)]">
+        <p className="font-[family-name:var(--font-donnees)] text-[var(--t-11)] font-medium tracking-[0.07em] text-[var(--texte-2)]">
           {inscrits === null ? (
             <>{millier(SEUIL_PLACES)} PLACES</>
           ) : (

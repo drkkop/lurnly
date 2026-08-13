@@ -19,17 +19,29 @@ export async function GET(requete: NextRequest) {
   const type = parametres.get('type') as EmailOtpType | null
   const suite = cheminSur(parametres.get('suite'))
 
-  if (!tokenHash || !type) {
-    return NextResponse.redirect(new URL('/connexion?erreur=lien_invalide', requete.url))
-  }
-
   const supabase = await clientServeur()
-  const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
 
-  if (error) {
-    // Lien expiré, déjà utilisé, ou forgé — un seul message pour les trois.
-    return NextResponse.redirect(new URL('/connexion?erreur=lien_invalide', requete.url))
+  if (tokenHash && type) {
+    const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash })
+    if (error) {
+      // Lien expiré, déjà utilisé, ou forgé — un seul message pour les trois.
+      return NextResponse.redirect(new URL('/connexion?erreur=lien_invalide', requete.url))
+    }
+    return NextResponse.redirect(new URL(suite, requete.url))
   }
 
-  return NextResponse.redirect(new URL(suite, requete.url))
+  // Repli : un gabarit d'email non configuré renvoie l'URL de confirmation par
+  // défaut de Supabase, qui vérifie de son côté puis nous repasse un `code`
+  // PKCE. On l'accepte pour ne pas bloquer l'utilisateur, mais c'est le
+  // chemin dégradé — il ne résiste pas au préchargement des clients mail.
+  const code = parametres.get('code')
+  if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    if (error) {
+      return NextResponse.redirect(new URL('/connexion?erreur=lien_invalide', requete.url))
+    }
+    return NextResponse.redirect(new URL(suite, requete.url))
+  }
+
+  return NextResponse.redirect(new URL('/connexion?erreur=lien_invalide', requete.url))
 }

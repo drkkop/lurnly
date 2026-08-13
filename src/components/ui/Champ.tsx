@@ -12,15 +12,29 @@ type CommunProps = {
   prefixe?: string
 }
 
-function classesSaisie(erreur?: string) {
+/** Cadre du champ : c'est **lui** qui porte le filet, pas la saisie.
+ *
+ *  C'était l'erreur : avec la bordure sur l'`input`, un champ à préfixe voyait
+ *  son préfixe rejeté hors du cadre, et la boîte se retrouvait décalée par
+ *  rapport aux champs sans préfixe. Le cadre englobe désormais préfixe et
+ *  saisie, donc tous les champs s'alignent quel qu'en soit le contenu. */
+function classesCadre(erreur?: string) {
   return [
-    'w-full rounded-[var(--radius-champ)] bg-transparent px-4 py-3',
-    'text-[16px] text-[var(--texte)] placeholder:opacity-40',
-    'border',
-    erreur ? 'border-[var(--texte)] border-2' : 'border-[var(--filet)]',
-    'focus:border-[var(--filet-appuye)]',
+    // `cadre-champ` neutralise le contour de focus des saisies (voir
+    // globals.css). Plus d'`overflow-hidden` : c'est lui qui transformait le
+    // contour rogné en barre verticale.
+    'cadre-champ flex h-[calc(46*var(--u))] w-full items-center',
+    'rounded-[var(--radius-bouton)] bg-[var(--surface)]',
+    'border transition-colors',
+    erreur ? 'border-[var(--texte)]' : 'border-[var(--filet)]',
+    // Le focus est signalé par le filet du cadre, qui s'assombrit.
+    'focus-within:border-[var(--filet-appuye)]',
   ].join(' ')
 }
+
+/** La saisie elle-même : aucune bordure, aucun contour — le cadre s'en charge. */
+const CLASSES_SAISIE =
+  'h-full min-w-0 flex-1 bg-transparent px-[calc(16*var(--u))] text-[var(--t-15)] text-[var(--texte)] outline-none placeholder:text-[var(--texte-3)]'
 
 export function Champ({
   label,
@@ -33,13 +47,19 @@ export function Champ({
   const idAide = aide ? `${id}-aide` : undefined
   const idErreur = erreur ? `${id}-erreur` : undefined
   return (
-    <div className="flex flex-col gap-2">
-      <label htmlFor={id} className="text-[14px] opacity-72">
+    <div className="flex flex-col gap-[calc(8*var(--u))]">
+      <label htmlFor={id} className="text-[var(--t-14)] text-[var(--texte-2)]">
         {label}
       </label>
-      <div className="flex items-center gap-0">
+
+      <div className={classesCadre(erreur)}>
         {prefixe ? (
-          <span className="shrink-0 pr-1 font-[var(--font-donnees)] text-[15px] opacity-40">
+          // Le préfixe est décoratif : il n'est pas saisi et ne part pas au
+          // serveur. Le lecteur d'écran l'ignore, le libellé et l'aide suffisent.
+          <span
+            aria-hidden="true"
+            className="shrink-0 pl-[calc(16*var(--u))] text-[var(--t-15)] text-[var(--texte-3)]"
+          >
             {prefixe}
           </span>
         ) : null}
@@ -47,17 +67,21 @@ export function Champ({
           id={id}
           aria-describedby={[idAide, idErreur].filter(Boolean).join(' ') || undefined}
           aria-invalid={erreur ? true : undefined}
-          className={classesSaisie(erreur)}
+          // Deux pixels de retrait derrière un préfixe : sans eux, le curseur
+          // de saisie vient se coller au « @ » et se lit comme un trait noir
+          // parasite plutôt que comme un curseur.
+          className={prefixe ? `${CLASSES_SAISIE} !pl-[calc(2*var(--u))]` : CLASSES_SAISIE}
           {...reste}
         />
       </div>
+
       {aide ? (
-        <p id={idAide} className="text-[13px] opacity-56">
+        <p id={idAide} className="text-[var(--t-13)] text-[var(--texte-3)]">
           {aide}
         </p>
       ) : null}
       {erreur ? (
-        <p id={idErreur} role="alert" className="text-[13px] font-medium">
+        <p id={idErreur} role="alert" className="text-[var(--t-13)] font-medium">
           {erreur}
         </p>
       ) : null}
@@ -76,26 +100,30 @@ export function ChampLong({
   const idAide = aide ? `${id}-aide` : undefined
   const idErreur = erreur ? `${id}-erreur` : undefined
   return (
-    <div className="flex flex-col gap-2">
-      <label htmlFor={id} className="text-[14px] opacity-72">
+    <div className="flex flex-col gap-[calc(8*var(--u))]">
+      <label htmlFor={id} className="text-[var(--t-14)] text-[var(--texte-2)]">
         {label}
       </label>
-      <textarea
-        id={id}
-        rows={4}
-        maxLength={maxLength}
-        aria-describedby={[idAide, idErreur].filter(Boolean).join(' ') || undefined}
-        aria-invalid={erreur ? true : undefined}
-        className={`${classesSaisie(erreur)} resize-none`}
-        {...reste}
-      />
+
+      <div className={`${classesCadre(erreur)} !h-auto`}>
+        <textarea
+          id={id}
+          rows={4}
+          maxLength={maxLength}
+          aria-describedby={[idAide, idErreur].filter(Boolean).join(' ') || undefined}
+          aria-invalid={erreur ? true : undefined}
+          className={`${CLASSES_SAISIE} resize-none py-[calc(12*var(--u))] leading-[1.55]`}
+          {...reste}
+        />
+      </div>
+
       {aide ? (
-        <p id={idAide} className="text-[13px] opacity-56">
+        <p id={idAide} className="text-[var(--t-13)] text-[var(--texte-3)]">
           {aide}
         </p>
       ) : null}
       {erreur ? (
-        <p id={idErreur} role="alert" className="text-[13px] font-medium">
+        <p id={idErreur} role="alert" className="text-[var(--t-13)] font-medium">
           {erreur}
         </p>
       ) : null}

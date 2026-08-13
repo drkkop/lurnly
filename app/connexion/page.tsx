@@ -25,9 +25,12 @@ export default async function Connexion({
   const messageErreur = erreur ? ERREURS[erreur] : undefined
 
   return (
-    <main className="mx-auto flex min-h-dvh max-w-[440px] flex-col justify-center gap-10 px-6">
+    <main
+      id="contenu"
+      className="mx-auto flex min-h-dvh max-w-[440px] flex-col justify-center gap-10 px-6"
+    >
       <header className="flex flex-col gap-3">
-        <h1 className="font-[var(--font-display)] text-[36px] leading-[1.1] tracking-[-0.9px]">
+        <h1 className="font-[var(--font-display)] text-[36px] leading-[1.1] tracking-[-0.03em]">
           Entrez dans le réseau
         </h1>
         <p className="text-[15px] opacity-56">

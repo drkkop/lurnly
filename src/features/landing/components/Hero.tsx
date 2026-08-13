@@ -25,13 +25,13 @@ export function Hero() {
       <BarreNav />
 
       <div className="mx-auto flex max-w-[calc(1246*var(--u))] flex-col items-center px-6 pt-[calc(105*var(--u))]">
-        <h1 className="text-center font-[family-name:var(--font-display)] text-[calc(72*var(--u))] font-semibold leading-[0.94] tracking-[-0.03em] text-[var(--texte)]">
+        <h1 className="text-center font-[family-name:var(--font-display)] text-[var(--t-72)] font-semibold leading-[0.94] tracking-[-0.03em] text-[var(--texte)]">
           C’est ici que votre réseau
           <br />
           <span className="text-[var(--color-attenue)]">s’agrandit</span>
         </h1>
 
-        <p className="mt-[calc(16*var(--u))] max-w-[calc(551*var(--u))] text-center text-[calc(19*var(--u))] leading-[1.55] tracking-[-0.03em] text-[var(--texte-2)]">
+        <p className="mt-[calc(16*var(--u))] max-w-[calc(551*var(--u))] text-center text-[var(--t-19)] leading-[1.55] tracking-[-0.03em] text-[var(--texte-2)]">
           Des communautés par domaine, des profils au chiffre d’affaires vérifié, et des mises en
           relation qui aboutissent.
         </p>
@@ -45,7 +45,7 @@ export function Hero() {
           l'optimiseur d'images décide de servir. */}
       <div className="relative mt-[calc(40*var(--u))] aspect-[1441/361] w-full">
         <Image
-          src="/hero/mains.png"
+          src="/hero/mains.webp"
           alt="Gravure au pointillé : deux mains qui se tendent l’une vers l’autre sans se toucher."
           fill
           priority
