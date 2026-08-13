@@ -16,7 +16,7 @@ major_version = 17
 [auth]
 enabled = true
 site_url = "http://localhost:3000"
-additional_redirect_urls = ["http://localhost:3000/auth/retour"]
+additional_redirect_urls = ["http://localhost:3000/auth/confirmer"]
 jwt_expiry = 3600
 enable_signup = true
 
@@ -28,6 +28,12 @@ enable_signup = true
 enable_confirmations = true
 double_confirm_changes = true
 secure_password_change = false
+
+# Gabarit maison : il envoie un token hash, pas une URL de confirmation
+# auto-consommée. Voir le commentaire en tête du fichier.
+[auth.email.template.magic_link]
+subject = "Votre lien pour entrer sur Lurnly"
+content_path = "./supabase/templates/magic_link.html"
 
 [storage]
 enabled = true

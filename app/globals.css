@@ -26,55 +26,90 @@
 }
 
 @theme {
-  /* Encre et papier — les deux seules valeurs de fond et de texte. */
+  /* --------------------------------------------------------------------
+     Valeurs relevées directement sur les nœuds Figma du fichier
+     hdo9Pn9hVuNpeaKVpeUVz8. Ne pas « arrondir » : les écarts de 0,5 px et
+     les gris intermédiaires sont ce qui fait tenir la maquette.
+     -------------------------------------------------------------------- */
+
+  /* Encre et papier */
   --color-encre: #100c08;
   --color-papier: #f8f7fa;
+  --color-blanc: #ffffff;
 
-  /* Gris dérivés. Utilisés en opacité de l'encre, jamais en teintes inventées. */
-  --color-encre-72: rgb(16 12 8 / 0.72);
-  --color-encre-56: rgb(16 12 8 / 0.56);
-  --color-encre-40: rgb(16 12 8 / 0.4);
-  --color-encre-16: rgb(16 12 8 / 0.16);
-  --color-encre-08: rgb(16 12 8 / 0.08);
+  /* Gris du système. Trois niveaux, pas des opacités inventées. */
+  --color-ardoise: #5b6472; /* corps, sous-titres, libellés d'options */
+  --color-brume: #969da8; /* aide, méta, marque substitutive */
+  --color-filet: #e0e3ea; /* toutes les bordures de 1 px */
+  --color-attenue: #5b6067; /* deuxième ligne du H1 */
 
-  /* La seule couleur du système. Fonctionnelle uniquement. */
+  /* La seule couleur du système — fonctionnelle uniquement. */
   --color-valide: #149e63;
+  --color-valide-fond: rgb(20 158 99 / 0.1);
 
-  /* Rayons — jamais une valeur unique, cf. regles-ia/02. */
-  --radius-pastille: 6px;
+  /* Rayons. Jamais une valeur unique : chaque objet a le sien. */
+  --radius-badge: 4px;
   --radius-bouton: 9px;
-  --radius-champ: 9px;
-  --radius-panneau: 15px;
-  --radius-carte: 16px;
+  --radius-tuile: 8.75px; /* tuile du logo */
+  --radius-carte: 13px; /* champ du hero, carte du salon */
+  --radius-panneau: 15px; /* panneau de la gravure, tirets de progression */
+  --radius-nav: 30px; /* coins bas de la barre de navigation */
 
-  /* Familles. Bricolage pour les titres, General Sans pour le corps,
-     JetBrains Mono réservé aux données chiffrées (CA, compteurs). */
+  /* Ombres. La maquette en utilise trois, pas une de plus. */
+  --shadow-nav: 0px 4px 20px 0px rgb(0 0 0 / 0.25);
+  --shadow-carte: 0px 3px 14px 0px rgb(16 24 40 / 0.07);
+  --shadow-tuile: 0px 0.175px 1.75px 0px rgb(0 0 0 / 0.1);
+  --shadow-panneau: 0px 0px 10px 0px rgb(0 0 0 / 0.25);
+
+  /* Familles */
   --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-corps: "General Sans", ui-sans-serif, system-ui, sans-serif;
   --font-donnees: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Gouttière de référence : la nav du hero fait 1246 px dans une page de 1440. */
+  /* Gouttière : la nav du hero fait 1246 px dans une page de 1440. */
   --largeur-contenu: 1246px;
 }
 
 :root {
   --fond: var(--color-papier);
   --texte: var(--color-encre);
-  --filet: rgb(16 12 8 / 0.16);
-  --filet-appuye: rgb(16 12 8 / 0.4);
+  --texte-2: var(--color-ardoise);
+  --texte-3: var(--color-brume);
+  --surface: var(--color-blanc);
+  --filet: var(--color-filet);
+  --filet-appuye: #c8cdd6;
 }
 
-/* Mode sombre — obligatoire (regles-ia/01). L'encre et le papier s'inversent ;
-   le vert de validation est le seul jeton qui ne bouge pas de rôle, seulement
-   de luminosité pour tenir le contraste sur fond sombre. */
+/* --------------------------------------------------------------------------
+   MODE SOMBRE — DÉSACTIVÉ VOLONTAIREMENT.
+
+   `regles-ia/01-couleur.md` l'exige, et il le restera. Mais aucun écran sombre
+   n'a jamais été dessiné : les valeurs ci-dessous étaient devinées, et le
+   résultat ne ressemblait à rien — la landing s'affichait sur fond encre alors
+   que toutes les images exportées de Figma ont un fond clair.
+
+   Un mode sombre inventé est pire que pas de mode sombre. On le réactivera
+   quand les écrans existeront dans Figma. Le bloc est conservé, pas supprimé :
+   il indique où recoller les jetons le jour venu.
+
 @media (prefers-color-scheme: dark) {
   :root {
     --fond: var(--color-encre);
     --texte: var(--color-papier);
-    --filet: rgb(248 247 250 / 0.18);
-    --filet-appuye: rgb(248 247 250 / 0.44);
+    --texte-2: #9aa2ae;
+    --texte-3: #6b7280;
+    --surface: #17120e;
+    --filet: rgb(248 247 250 / 0.14);
+    --filet-appuye: rgb(248 247 250 / 0.32);
     --color-valide: #22c07a;
   }
+}
+   -------------------------------------------------------------------------- */
+
+/* Tant que le mode sombre n'est pas dessiné, on impose le thème clair :
+   sans ça, le navigateur choisit à notre place et casse la maquette. */
+:root {
+  color-scheme: light;
 }
 
 html {

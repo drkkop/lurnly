@@ -1,0 +1,19 @@
+<!--
+  Gabarit du lien de connexion.
+
+  Point essentiel : on utilise `{{ .TokenHash }}` et non `{{ .ConfirmationURL }}`.
+  Les clients mail préchargent les liens pour en faire un aperçu ; un lien qui
+  se consomme au chargement serait déjà brûlé quand l'utilisateur clique.
+  Le token hash est vérifié explicitement par /auth/confirmer.
+-->
+<h2>Votre lien pour entrer</h2>
+
+<p>Cliquez, et vous y êtes. Ce lien vaut une heure et ne sert qu'une fois.</p>
+
+<p>
+  <a href="{{ .SiteURL }}/auth/confirmer?token_hash={{ .TokenHash }}&type=email">
+    Entrer sur Lurnly
+  </a>
+</p>
+
+<p>Si vous n'avez rien demandé, ignorez ce message : personne n'a accès à votre compte sans ce lien.</p>

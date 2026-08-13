@@ -14,11 +14,14 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 
 const VARIANTES = {
-  plein: 'bg-[var(--texte)] text-[var(--fond)] hover:opacity-90 disabled:opacity-40',
+  // Bouton principal du funnel : 50 px de haut, rayon 9, texte 15 px medium
+  // (nœud Figma 142:21). Le survol passe par l'opacité — en monochrome il n'y
+  // a pas de teinte à assombrir.
+  plein: 'h-[50px] bg-[var(--color-encre)] text-white hover:opacity-90 disabled:opacity-40',
   filet:
-    'border border-[var(--filet-appuye)] text-[var(--texte)] hover:bg-[var(--color-encre-08)] disabled:opacity-40',
+    'h-[50px] border border-[var(--filet)] bg-[var(--surface)] text-[var(--texte-2)] hover:border-[var(--filet-appuye)] disabled:opacity-40',
   discret:
-    'text-[var(--texte)] opacity-56 hover:opacity-100 underline underline-offset-4 disabled:opacity-30',
+    'text-[var(--texte-3)] hover:text-[var(--texte)] underline underline-offset-4 disabled:opacity-30',
 } as const
 
 export function Bouton({
@@ -32,8 +35,8 @@ export function Bouton({
     <button
       type={type}
       className={[
-        'rounded-[var(--radius-bouton)] px-5 py-3 text-[15px] font-medium',
-        'transition-opacity duration-150 disabled:cursor-not-allowed',
+        'inline-flex items-center justify-center rounded-[var(--radius-bouton)] px-[18px]',
+        'text-[15px] font-medium transition-all duration-150 disabled:cursor-not-allowed',
         VARIANTES[variante],
         pleineLargeur ? 'w-full' : '',
         className,

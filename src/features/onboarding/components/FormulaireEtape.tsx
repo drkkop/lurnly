@@ -62,9 +62,11 @@ export function FormulaireEtape({
           <legend className="sr-only">{etape.titre}</legend>
           <div
             className={
+              // 12 px entre les colonnes, 10 px entre les rangs — relevé sur
+              // les nœuds Figma 142:5 à 142:20.
               etape.colonnes === 2
-                ? 'grid grid-cols-1 gap-2 sm:grid-cols-2'
-                : 'grid grid-cols-1 gap-2'
+                ? 'grid grid-cols-1 gap-x-[12px] gap-y-[10px] sm:grid-cols-2'
+                : 'grid grid-cols-1 gap-y-[10px]'
             }
           >
             {etape.options.map((option) => {
@@ -142,8 +144,8 @@ export function FormulaireEtape({
         </p>
       ) : null}
 
-      <div className="flex items-center gap-4">
-        <Bouton type="submit" disabled={enCours}>
+      <div className="flex flex-col gap-4">
+        <Bouton type="submit" disabled={enCours} pleineLargeur>
           {enCours ? 'Un instant…' : 'Continuer'}
         </Bouton>
 
@@ -152,12 +154,6 @@ export function FormulaireEtape({
             Plus tard
           </Bouton>
         ) : null}
-
-        {/* Sortie possible depuis n'importe quelle étape — la réponse en cours
-            est déjà enregistrée, revenir ne perd rien. */}
-        <Bouton variante="discret" onClick={() => router.push('/')} disabled={enCours}>
-          Reprendre plus tard
-        </Bouton>
       </div>
     </form>
   )
