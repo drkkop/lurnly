@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+build/
+.DS_Store
+
+# Secrets — présents dès le premier commit (cf. fondations-dev/02-securite.md §3)
+.env
+.env.*
+!.env.example
+
+*.tsbuildinfo
+next-env.d.ts
+coverage/
+supabase/.temp/
+supabase/.branches/
